@@ -13,3 +13,19 @@ A tiny ASP.NET Core MVC app to track lists and their items. Kept small on purpos
 | 14 | Logging | Structured logs for item lifecycle | Capture traces | Log created with `EventId=ItemCreated` and properties `ListId`, `ItemId`, `Title` | Log snippet and code | Create and edit an item then inspect logs |
 | 15 | Stored Procedures | `dbo.GetTopListsByOpenItems` plus page | Leaderboard of lists with most open items | SP created via migration. Page uses `FromSqlInterpolated` to show top five | SP script in README. Screenshot of page | Add items, mark some complete, confirm ordering |
 | 16 | Deployment | Azure App Service with secrets | Public URL runs prod settings | App builds and runs on Azure. Connection string in App Service. `/healthz` reachable | Deployed URL and screenshots | Visit URL, open home and `/healthz` |
+
+## Week 10 – Modeling
+
+This week I implemented the data model for the QuickLists app. I added a `TaskItem` entity with fields for Id, Title, and IsComplete, and created a `QuickListsContext` that inherits from `DbContext` and includes a `DbSet<TaskItem>`.
+
+I connected the app to an SQLite database using `appsettings.json` and registered the DbContext inside `Program.cs`. After that, I generated the initial migration and updated the database.
+
+### What was completed:
+- Created TaskItem entity (Id, Title, IsComplete)
+- Added QuickListsContext with DbSet<TaskItem>
+- Registered DbContext in Program.cs with SQLite connection
+- Ran `Add-Migration InitialCreate` and `Update-Database`
+- Verified that SQLite database file was created
+
+This completes the Week 10 requirement of defining the data model and setting up the database layer for future CRUD functionality.
+
