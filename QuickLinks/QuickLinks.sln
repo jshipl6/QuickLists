@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36414.22 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickLinks", "QuickLinks.csproj", "{DC593F59-C907-43E7-82EF-4D965A69658D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DC593F59-C907-43E7-82EF-4D965A69658D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC593F59-C907-43E7-82EF-4D965A69658D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC593F59-C907-43E7-82EF-4D965A69658D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC593F59-C907-43E7-82EF-4D965A69658D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3F780257-BFD2-4017-90E5-81A556218915}
+	EndGlobalSection
+EndGlobal
