@@ -1,8 +1,8 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using QuickLinks.Models;
+using QuickLists.Models;
 
-namespace QuickLinks.Controllers
+namespace QuickLists.Controllers
 {
     public class HomeController : Controller
     {

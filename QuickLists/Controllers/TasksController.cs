@@ -20,25 +20,31 @@ namespace QuickLists.Controllers
             return View(items);
         }
 
+        // GET: /Tasks/Create
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View(new TaskItem());
+        }
+
         // POST: /Tasks/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title")] TaskItem input)
+        public async Task<IActionResult> Create([Bind("Title,IsComplete")] TaskItem task)
         {
             if (!ModelState.IsValid)
             {
-                var items = await _tasks.GetAllAsync();
-                return View("Index", items);
+                return View(task);
             }
 
-            await _tasks.AddAsync(input.Title);
+            await _tasks.AddAsync(task);
             return RedirectToAction(nameof(Index));
         }
 
-        // POST: /Tasks/Toggle/5
+        // POST: /Tasks/ToggleComplete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Toggle(int id)
+        public async Task<IActionResult> ToggleComplete(int id)
         {
             await _tasks.ToggleCompleteAsync(id);
             return RedirectToAction(nameof(Index));

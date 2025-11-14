@@ -1,6 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\QuickLists",
+    "\\QuickLists\\Controllers",
+    "\\QuickLists\\Services"
   ],
+  "SelectedNode": "\\QuickLists\\Controllers\\TasksController.cs",
   "PreviewInSolutionExplorer": false
 }

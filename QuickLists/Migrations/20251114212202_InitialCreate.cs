@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace QuickLinks.Migrations
+namespace QuickLists.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -11,7 +11,7 @@ namespace QuickLinks.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "TaskItems",
+                name: "Tasks",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -21,7 +21,7 @@ namespace QuickLinks.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TaskItems", x => x.Id);
+                    table.PrimaryKey("PK_Tasks", x => x.Id);
                 });
         }
 
@@ -29,7 +29,7 @@ namespace QuickLinks.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "TaskItems");
+                name: "Tasks");
         }
     }
 }

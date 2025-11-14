@@ -1,4 +1,6 @@
 ﻿using QuickLists.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace QuickLists.Services
 {
@@ -6,8 +8,8 @@ namespace QuickLists.Services
     {
         Task<List<TaskItem>> GetAllAsync();
         Task<TaskItem?> GetAsync(int id);
-        Task<TaskItem> AddAsync(string title);
         Task<bool> ToggleCompleteAsync(int id);
         Task<bool> DeleteAsync(int id);
+        Task AddAsync(TaskItem task);
     }
 }

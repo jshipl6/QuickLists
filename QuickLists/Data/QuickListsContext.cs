@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using QuickLists.Models;
-using System.Collections.Generic;
 
 namespace QuickLists.Data
 {
@@ -11,6 +10,6 @@ namespace QuickLists.Data
         {
         }
 
-        public DbSet<TaskItem> TaskItems { get; set; }
+        public DbSet<TaskItem> Tasks { get; set; } = default!;
     }
 }
