@@ -29,3 +29,12 @@ I connected the app to an SQLite database using `appsettings.json` and registere
 
 This completes the Week 10 requirement of defining the data model and setting up the database layer for future CRUD functionality.
 
+## Week 11 – Separation of Concerns / Dependency Injection
+
+This week I moved the QuickLists business logic out of the controller and into a dedicated service to improve separation of concerns. I created an interface `ITaskService` that defines the operations my app needs: load all tasks, load a single task, add a task, toggle completion, and delete. I then implemented that interface in `TaskService`, which uses the EF Core `QuickListsContext` to talk to the database.
+
+I registered the service with the DI container using `AddScoped<ITaskService, TaskService>()` in `Program.cs`. Scoped lifetime matches EF Core usage because each web request gets its own DbContext instance. The `TasksController` now depends on `ITaskService` instead of the DbContext. This keeps the controller thin and focused on HTTP concerns such as model binding, validation, and returning views, while the service contains all of the data access and domain logic.
+
+This refactor makes the code easier to test and change. For example, I can swap in a fake implementation of `ITaskService` for unit tests without touching the controller. It also sets me up for future features like logging inside the service or adding caching around reads. Screenshots in this folder show the service files, DI registration in `Program.cs`, and the controller calling the service.
+
+
