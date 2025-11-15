@@ -1,0 +1,28 @@
+﻿@model QuickLists.Models.TaskItem
+
+@{
+    ViewData["Title"] = "Task Details";
+}
+
+<h1>Task Details</h1>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            Title
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Title
+        </dd>
+        <dt class="col-sm-2">
+            Done
+        </dt>
+        <dd class="col-sm-10">
+            @(Model.IsComplete ? "Yes" : "No")
+        </dd>
+    </dl>
+</div>
+
+<p>
+    <a asp-action="Index">Back to list</a>
+</p>

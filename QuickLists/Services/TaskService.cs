@@ -1,12 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using QuickLists.Data;
 using QuickLists.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace QuickLists.Services
 {
-    public class TaskService : ITaskService
+    public sealed class TaskService : ITaskService
     {
         private readonly QuickListsContext _db;
 
@@ -25,13 +26,18 @@ namespace QuickLists.Services
 
         public async Task<TaskItem?> GetAsync(int id)
         {
-            return await _db.Tasks.FirstOrDefaultAsync(t => t.Id == id);
+            return await _db.Tasks
+                .FirstOrDefaultAsync(t => t.Id == id);
         }
 
         public async Task AddAsync(TaskItem task)
         {
-            // trim title just to be safe
-            task.Title = task.Title?.Trim() ?? string.Empty;
+            if (task == null) return;
+
+            task.Title = task.Title.Trim();
+
+            if (string.IsNullOrEmpty(task.Title)) return;
+
             _db.Tasks.Add(task);
             await _db.SaveChangesAsync();
         }
@@ -43,7 +49,6 @@ namespace QuickLists.Services
 
             item.IsComplete = !item.IsComplete;
             await _db.SaveChangesAsync();
-
             return true;
         }
 
@@ -54,7 +59,6 @@ namespace QuickLists.Services
 
             _db.Tasks.Remove(item);
             await _db.SaveChangesAsync();
-
             return true;
         }
     }

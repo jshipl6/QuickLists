@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using QuickLists.Models;
 using QuickLists.Services;
 
@@ -13,27 +14,39 @@ namespace QuickLists.Controllers
             _tasks = tasks;
         }
 
-        // GET: /Tasks
+        // GET. /Tasks
         public async Task<IActionResult> Index()
         {
             var items = await _tasks.GetAllAsync();
             return View(items);
         }
 
-        // GET: /Tasks/Create
-        [HttpGet]
+        // GET. /Tasks/Details/5
+        public async Task<IActionResult> Details(int id)
+        {
+            var item = await _tasks.GetAsync(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            return View(item);
+        }
+
+        // GET. /Tasks/Create
         public IActionResult Create()
         {
             return View(new TaskItem());
         }
 
-        // POST: /Tasks/Create
+        // POST. /Tasks/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Title,IsComplete")] TaskItem task)
         {
             if (!ModelState.IsValid)
             {
+                // show validation messages
                 return View(task);
             }
 
@@ -41,7 +54,7 @@ namespace QuickLists.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // POST: /Tasks/ToggleComplete/5
+        // POST. /Tasks/ToggleComplete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ToggleComplete(int id)
@@ -50,7 +63,7 @@ namespace QuickLists.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // POST: /Tasks/Delete/5
+        // POST. /Tasks/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
