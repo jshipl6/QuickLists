@@ -47,6 +47,16 @@ Next I added validation feedback for the create page. The TaskItem model already
 
 I also implemented a task details page. This included a new action in the controller and a new Razor view. The details page shows the task title and completion state. This completed the requirement for at least one read operation beyond the index list.
 
+## Week 13 - Diagnostics Feature
+
+For this week I added a diagnostics feature to my QuickLists MVC application. The goal was to expose a health endpoint that returns a clear status along with at least one real dependency check. I decided to build a controller named DiagnosticsController and add a route at slash health. This route returns a JSON object that shows whether the application is running correctly along with the state of the database connection.
+
+To make sure the endpoint included a real dependency check I used the Entity Framework Core database context and executed a simple SQL command. This confirms that the database is reachable without exposing anything sensitive. If the query fails the endpoint reports that the database connection is not working. If it succeeds the endpoint reports that everything is healthy. This gives a straightforward snapshot of system health that can be useful in both development and production environments.
+
+The biggest challenge was deciding how much information to include in the health response. I wanted the output to be clear and helpful but I also wanted to avoid leaking anything that should not be public. Returning a simple status flag for the database plus a timestamp kept it clean and safe.
+
+The most useful part of this assignment was understanding how simple diagnostic endpoints can help monitor an application. In real world situations this type of health route can be used by load balancers, container orchestrators, uptime monitors and automated deployment systems to verify that an application is alive and able to reach its required dependencies. This type of feature makes the application more reliable and easier to maintain.
+
 Finally I reviewed and tested the entire flow. Creating a task works as expected. The list updates after creation. The details page loads and shows the correct item. All async calls work. Validation works. The project now includes every required part of the assignment.
 
 
