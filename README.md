@@ -37,4 +37,16 @@ I registered the service with the DI container using `AddScoped<ITaskService, Ta
 
 This refactor makes the code easier to test and change. For example, I can swap in a fake implementation of `ITaskService` for unit tests without touching the controller. It also sets me up for future features like logging inside the service or adding caching around reads. Screenshots in this folder show the service files, DI registration in `Program.cs`, and the controller calling the service.
 
+## Week 12 - CRUD  
+
+This week I implemented the full CRUD feature for the QuickLists application. The goal was to deliver one complete end to end vertical slice that shows async data access, validation, and at least one working write action. I focused on the Tasks section of the app and expanded it so users can create tasks, view tasks, and read details for each task.
+
+The first step was adding full async data access. I updated the service methods to use ToListAsync, FirstOrDefaultAsync, AddAsync, SaveChangesAsync, and similar operations. This ensured that the controller could await results correctly and that the entire data flow was non blocking. The QuickListsContext class already had the DbSet for TaskItem so all that was required was to clean up the interfaces and make sure each method returned the right type. After debugging a few issues and fixing method signatures in the interface, the service compiled and functioned as expected.
+
+Next I added validation feedback for the create page. The TaskItem model already had a required attribute on the Title property, so the controller only needed to return the same view when the model state was invalid. This allowed the user to see validation messages without losing the data they typed. The view was updated to show validation messages using the Tag Helpers built into ASP.NET Core. Once that was done the create form enforced the required rule correctly.
+
+I also implemented a task details page. This included a new action in the controller and a new Razor view. The details page shows the task title and completion state. This completed the requirement for at least one read operation beyond the index list.
+
+Finally I reviewed and tested the entire flow. Creating a task works as expected. The list updates after creation. The details page loads and shows the correct item. All async calls work. Validation works. The project now includes every required part of the assignment.
+
 
