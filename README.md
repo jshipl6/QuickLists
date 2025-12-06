@@ -47,6 +47,69 @@ Next I added validation feedback for the create page. The TaskItem model already
 
 I also implemented a task details page. This included a new action in the controller and a new Razor view. The details page shows the task title and completion state. This completed the requirement for at least one read operation beyond the index list.
 
+## Week 13 - Diagnostics Feature
+
+For this week I added a diagnostics feature to my QuickLists MVC application. The goal was to expose a health endpoint that returns a clear status along with at least one real dependency check. I decided to build a controller named DiagnosticsController and add a route at slash health. This route returns a JSON object that shows whether the application is running correctly along with the state of the database connection.
+
+To make sure the endpoint included a real dependency check I used the Entity Framework Core database context and executed a simple SQL command. This confirms that the database is reachable without exposing anything sensitive. If the query fails the endpoint reports that the database connection is not working. If it succeeds the endpoint reports that everything is healthy. This gives a straightforward snapshot of system health that can be useful in both development and production environments.
+
+The biggest challenge was deciding how much information to include in the health response. I wanted the output to be clear and helpful but I also wanted to avoid leaking anything that should not be public. Returning a simple status flag for the database plus a timestamp kept it clean and safe.
+
+The most useful part of this assignment was understanding how simple diagnostic endpoints can help monitor an application. In real world situations this type of health route can be used by load balancers, container orchestrators, uptime monitors and automated deployment systems to verify that an application is alive and able to reach its required dependencies. This type of feature makes the application more reliable and easier to maintain.
+
 Finally I reviewed and tested the entire flow. Creating a task works as expected. The list updates after creation. The details page loads and shows the correct item. All async calls work. Validation works. The project now includes every required part of the assignment.
 
+# QuickLists Week 14 Logging
 
+This week I implemented structured logging for the QuickLists task app.  
+The goal was to record what happens on both successful and failing paths in a way that is readable and useful when something breaks.
+
+## What I changed
+
+1. Injected `ILogger<TaskService>` into `TaskService`.
+2. Added information logs in the read methods.  
+   These record things like total task count and which task id was requested.
+3. Added information and warning logs in the create and delete methods.  
+   These record the title and id when operations succeed, and write warnings when something goes wrong.
+4. Updated the controller actions to rely on the service for data access so the logs all come from a single place.
+
+## Success path logging
+
+To hit the success path
+
+1. Run the app from Visual Studio.
+2. Open the Output window and choose Debug as the source.
+3. Browse to `/Tasks` then choose Add Task.
+4. Enter a non empty title and save.
+
+You should see messages similar to
+
+* `Adding task with title Test logging`
+* `Loaded task list, count 3`
+
+These messages confirm that the request went through the service and the database and that the state of the list is what I expect.
+
+## Error path logging
+
+To hit an error style path I used two cases.
+
+First, submit the Create form with an empty Title.  
+Model validation fails, the controller returns the same view, and a warning log is written indicating that Create was called with an invalid model.
+
+Second, request a task id that does not exist by typing a large id value in the browser, for example `/Tasks/Delete/9999`.  
+The service cannot find that task, returns false, and writes a warning log such as
+
+* `DeleteAsync could not find task with id 9999`
+
+These logs give enough detail to see what went wrong without revealing secrets like connection strings.
+
+## How this helps in a real app
+
+With these logs in place, I can quickly answer questions like
+
+* Did the request reach the service
+* What id or title was involved
+* Did the database call return anything
+
+In a real production environment this output would go to a centralized log store where it could be searched by correlation id or user action.  
+Even though this is a small class project, the pattern matches what real systems do and makes the app much easier to troubleshoot.
