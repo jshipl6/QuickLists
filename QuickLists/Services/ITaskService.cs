@@ -8,7 +8,7 @@ namespace QuickLists.Services
     {
         Task<List<TaskItem>> GetAllAsync();
         Task<TaskItem?> GetAsync(int id);
-        Task AddAsync(TaskItem task);
+        Task<bool> AddAsync(TaskItem task);
         Task<bool> ToggleCompleteAsync(int id);
         Task<bool> DeleteAsync(int id);
     }
