@@ -165,3 +165,19 @@ How this helps in a real app
 Even though this is a small class project, learning how to call raw SQL through EF Core is useful for cases where EF cannot generate the exact query needed. It also shows how to isolate SQL in a separate file and keep the controller clean by routing everything through the service layer.
 
 This feature adds a new way to retrieve data that is outside the normal CRUD operations, which is exactly what stored procedures are used for in real production systems.
+
+---
+
+## Week 16 Deployment to Azure simulated
+
+I did not deploy QuickLists to Azure because my Azure student credits are exhausted.  
+Instead I created a full deployment guide in `DEPLOYMENT.md` that walks through
+
+* Creating an Azure App Service and resource group  
+* Configuring app settings and connection strings for Production  
+* Preparing `appsettings.Production.json` and keeping secrets outside the repo  
+* Publishing the QuickLists project from Visual Studio to the App Service  
+* Verifying the site and the `/healthz` diagnostics endpoint  
+* Cleaning up Azure resources when testing is complete
+
+If credits are restored later these steps can be followed to complete a real deployment without code changes.
