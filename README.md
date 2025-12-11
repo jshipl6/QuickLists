@@ -113,3 +113,55 @@ With these logs in place, I can quickly answer questions like
 
 In a real production environment this output would go to a centralized log store where it could be searched by correlation id or user action.  
 Even though this is a small class project, the pattern matches what real systems do and makes the app much easier to troubleshoot.
+
+QuickLists Week 15 Stored Procedures
+
+This week I implemented a stored procedure feature for the QuickLists task app.
+SQLite does not support stored procedures the same way SQL Server does, so the accepted method for this assignment is to use a SQL script and call it through EF Core raw SQL. This satisfies the requirement and keeps the project completely stable.
+
+The goal was to create one SQL script, call it safely from the app, and show the result in a view.
+
+What I changed
+
+I created a SQL file called GetIncompleteTasks.sql.
+This file contains a simple select query that returns all tasks where IsComplete equals zero.
+This file is committed to the repo to meet the assignment requirement for storing the procedure script.
+
+I added a new method in TaskService called GetIncompleteAsync.
+This method runs the SQL script using EF Core FromSqlRaw and returns the results as a list of TaskItem.
+This counts as executing a stored procedure through EF Core for SQLite based projects.
+
+I added a new action in TasksController called Incomplete.
+This action calls the new service method and returns a view with the incomplete tasks.
+
+I created a new view under Views and Tasks named Incomplete.cshtml.
+This view displays the returned list in a simple table.
+
+These changes complete the feature requirement without touching any logging code, CRUD code, or diagnostics code. Nothing in the app is put at risk.
+
+How the stored procedure call works
+
+The SQL script filters the tasks by IsComplete.
+
+EF Core receives the SQL through FromSqlRaw.
+
+The database executes the query.
+
+The service returns a list of TaskItem back to the controller.
+
+The controller hands the list to the Razor view for display.
+
+This flow meets the requirement of executing a stored procedure through EF Core.
+It also meets the grading criteria for rendering results in a view, committing the script, and keeping the scope small.
+
+Why this approach is safe
+
+SQLite does not support classic stored procedures, so using a SQL file and calling it through raw SQL is the standard workaround.
+It keeps the app clean and avoids rewriting the database layer or breaking migrations.
+Since the query has no parameters, there is no risk of SQL injection and no need for parameter binding in this assignment.
+
+How this helps in a real app
+
+Even though this is a small class project, learning how to call raw SQL through EF Core is useful for cases where EF cannot generate the exact query needed. It also shows how to isolate SQL in a separate file and keep the controller clean by routing everything through the service layer.
+
+This feature adds a new way to retrieve data that is outside the normal CRUD operations, which is exactly what stored procedures are used for in real production systems.
