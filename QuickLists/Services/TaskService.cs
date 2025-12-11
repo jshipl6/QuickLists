@@ -123,6 +123,12 @@ namespace QuickLists.Services
 
             return true;
         }
+        public async Task<List<TaskItem>> GetIncompleteTasksAsync()
+        {
+            return await _db.Tasks
+                .FromSqlRaw("SELECT Id, Title, IsComplete FROM Tasks WHERE IsComplete = 0")
+                .ToListAsync();
+        }
 
         // DELETE
         public async Task<bool> DeleteAsync(int id)

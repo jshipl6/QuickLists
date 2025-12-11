@@ -15,6 +15,7 @@ namespace QuickLists.Controllers
         }
 
         // GET. /Tasks
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var items = await _tasks.GetAllAsync();
